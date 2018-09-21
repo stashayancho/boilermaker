@@ -8,6 +8,16 @@ const User = db.define('user', {
     unique: true,
     allowNull: false
   },
+  name: {
+    type: Sequelize.STRING,
+    allowNull: false
+  },
+  accessToken: {
+    type: Sequelize.TEXT
+  },
+  refreshToken: {
+    type: Sequelize.TEXT
+  },
   password: {
     type: Sequelize.STRING,
     // Making `.password` act like a func hides it when serializing to JSON.
@@ -24,7 +34,7 @@ const User = db.define('user', {
       return () => this.getDataValue('salt')
     }
   },
-  googleId: {
+  spotifyId: {
     type: Sequelize.STRING
   }
 })
