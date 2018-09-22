@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
 import {Button, Grid} from 'react-materialize'
 // import { access } from 'fs';
-import {spotifyApi, getPlaylistGenres} from '../../server/services/spotify'
+import {spotifyApi, getPlaylistGenres, splitArr} from '../../server/services/spotify'
 
 /**
  * COMPONENT
@@ -18,7 +18,7 @@ export const UserHome = props => {
   // },function(err) {
   //   console.log('Something went wrong!', err);
   // });
-  getPlaylistGenres('1274130140');
+  splitArr('1274130140');
   }
 
 

@@ -62,12 +62,13 @@ const getPlaylistGenres = async spotifyId => {
     return playlistArr.map(playlist => playlist.body.items.forEach(item => artistIds.push(item.track.artists[0].id)))
   })
   console.log('artistids', artistIds)
-  Promise.resolve(artistIds).then(idsArr => {
-    console.log('idsarr', idsArr)
-    let chunk = idsArr.slice(0, 50)
-    console.log('chunk', chunk)
-    return chunk
-  })
+  return artistIds
+  // Promise.resolve(artistIds).then(idsArr => {
+  //   console.log('idsarr', idsArr)
+  //   let chunk = idsArr.slice(0, 50)
+  //   console.log('chunk', chunk)
+  //   return chunk
+  // })
 
 
   //before throttling
@@ -103,13 +104,25 @@ const getPlaylistGenres = async spotifyId => {
   //   })})
 
   // console.log('genres', genres)
+}
 
+const splitArr = async (spotifyId) => {
+  let result = []
+  let artistIdArr = await getPlaylistGenres(spotifyId)
+  for (let i = 0; i <= artistIdArr.length; i += 50) {
+    console.log('here')
+    let chunk = artistIdArr.slice(i, i + 50)
+    console.log('chunk', chunk)
+    result.push(chunk)
+    }
+    return result
+}
 
+// splitArr()
 
 
 
     // ^^^reduce genres array into dictionary with keys as genres and values as occurences of genre. pick highest (unique-ish?) genres and store these data points in database so no need to re-calculate next time. offer option to force recalculation
-    console.log('genres', genres)
 
   // const reduceGenres = genresArr => {
   //   let genrePopularity = {}
@@ -124,7 +137,6 @@ const getPlaylistGenres = async spotifyId => {
   // reduceGenres(genres)
   //compare results based on popular genres or by user's most popular? or both
 
-}
 
-module.exports = {spotifyApi, getPlaylistGenres}
+module.exports = {spotifyApi, getPlaylistGenres, splitArr}
 
