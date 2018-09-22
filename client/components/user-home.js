@@ -1,9 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
-import {Button} from 'react-materialize'
+import {Button, Grid} from 'react-materialize'
 // import { access } from 'fs';
-import {spotifyApi, compareGenres} from '../../server/services/spotify'
+import {spotifyApi, getPlaylistGenres} from '../../server/services/spotify'
 
 /**
  * COMPONENT
@@ -18,14 +18,17 @@ export const UserHome = props => {
   // },function(err) {
   //   console.log('Something went wrong!', err);
   // });
-  compareGenres('1274130140');
+  getPlaylistGenres('1274130140');
   }
 
 
   return (
     <div>
       <h3>Welcome, {name}</h3>
-      <Button onClick={handleClick}>api</Button>
+      {/* <Grid> */}
+
+        <Button className='green' waves='light' onClick={handleClick}>api</Button>
+      {/* </Grid> */}
     </div>
   )
 }
