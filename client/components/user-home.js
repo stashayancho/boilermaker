@@ -1,36 +1,57 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
-import {Button, Grid} from 'react-materialize'
-// import { access } from 'fs';
-import {spotifyApi, getPlaylistGenres, splitArr} from '../../server/services/spotify'
+import {Button, Row, Col, Input} from 'react-materialize'
+import {spotifyApi, getGenres, sortGenres, compareGenres} from '../../server/services/spotify'
+import RadarGraph from './RadarGraph'
 
 /**
  * COMPONENT
  */
-export const UserHome = props => {
-  const {name} = props
-  const handleClick = () => {
-    spotifyApi.setAccessToken(props.accessToken)
-  //   spotifyApi.getUserPlaylists('1274130140')
-  // .then(function(data) {
-  //   console.log('Retrieved playlists', data.body);
-  // },function(err) {
-  //   console.log('Something went wrong!', err);
-  // });
-  splitArr('1274130140');
+class UserHome extends React.Component {
+  state = {
+    otherSpotifyId: '',
+    genreData: []
+  }
+
+  handleChange = (event) => {
+    this.setState({otherSpotifyId: event.target.value})
+  }
+
+  handleClick = async () => {
+    spotifyApi.setAccessToken(this.props.accessToken)
+    let userGenresArr = await getGenres(this.state.spotifyId)
+    let genresArr = await getGenres(this.state.otherSpotifyId)
+    let data = await compareGenres(userGenresArr, genresArr)
+    this.setState({genreData: data})
   }
 
 
-  return (
-    <div>
-      <h3>Welcome, {name}</h3>
-      {/* <Grid> */}
-
-        <Button className='green' waves='light' onClick={handleClick}>api</Button>
-      {/* </Grid> */}
-    </div>
-  )
+  render() {
+    const {name} = this.props
+    return (
+      <div>
+          <Row>
+            <Col s={3} />
+            <Input placeholder="Spotify ID" s={6} onChange={this.handleChange} />
+            <Col s={3} />
+          </Row>
+          <Row>
+            <Col s={3} />
+            <Button className='green' waves='light' onClick={this.handleClick}>compare</Button>
+            <Col s={3} />
+          </Row>
+          {this.state.genreData.length ? <RadarGraph genreData={this.state.genreData}/> :
+            <Row id="how-to">
+              <Col s={3} />
+              <Col s={6}>
+                <h5>Enter a user's Spotify ID to compare your musical tastes!</h5>
+              </Col>
+              <Col s={3} />
+            </Row>}
+      </div>
+    )
+  }
 }
 
 
@@ -41,7 +62,8 @@ const mapState = state => {
   return {
     email: state.user.email,
     name: state.user.name,
-    accessToken: state.user.accessToken
+    accessToken: state.user.accessToken,
+    spotifyId: state.user.spotifyId,
   }
 }
 

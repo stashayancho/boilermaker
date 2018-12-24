@@ -11,23 +11,19 @@ const AuthForm = props => {
   const {name, handleSubmit, error} = props
 
   return (
-    <Row>
-      <Col s={4} />
-      <Col s={4}>
-        <Button className='green' waves='light' node='a' href="/auth/spotify">Get Started with Spotify</Button>
-      </Col>
-      <Col s={4} />
-    </Row>
+    <div>
+      <Row />
+      <Row id="start-page">
+        <Col s={4} />
+        <Col s={4}>
+          <Button className='green' waves='light' node='a' href="/auth/spotify">Get Started with Spotify</Button>
+        </Col>
+        <Col s={4} />
+      </Row>
+    </div>
   )
 }
 
-/**
- * CONTAINER
- *   Note that we have two different sets of 'mapStateToProps' functions -
- *   one for Login, and one for Signup. However, they share the same 'mapDispatchToProps'
- *   function, and share the same Component. This is a good example of how we
- *   can stay DRY with interfaces that are very similar to each other!
- */
 const mapLogin = state => {
   return {
     name: 'login',

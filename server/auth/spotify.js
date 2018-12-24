@@ -10,14 +10,14 @@ passport.use(
     {
       clientID: process.env.client_id,
       clientSecret: process.env.client_secret,
-      callbackURL: 'http://localhost:8080/auth/spotify/callback'
+      callbackURL: process.env.redirect_uri
     },
     function(accessToken, refreshToken, expires_in, profile, done) {
       console.log('****** PROFILE *******', profile)
       console.log('*******ACCESS TOKEN*****', accessToken)
       User.findOrCreate({
         where: {spotifyId: profile.id},
-        defaults: {name: profile.displayName, email: profile.emails[0].value, accessToken: accessToken}
+        defaults: {name: profile.displayName, email: profile.emails[0].value, accessToken: accessToken, imageUrl: profile.photos[0]}
       })
         .then(([user]) => done(null, user))
         .catch(done)

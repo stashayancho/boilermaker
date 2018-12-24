@@ -63,7 +63,8 @@
     "sequelize": "^4.38.0",
     "socket.io": "^2.1.1",
     "spotify-refresh": "^2.0.3",
-    "spotify-web-api-node": "^4.0.0"
+    "spotify-web-api-node": "^4.0.0",
+    "victory": "^30.3.1"
   },
   "devDependencies": {
     "@babel/core": "^7.0.0-beta.55",

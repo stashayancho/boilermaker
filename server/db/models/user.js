@@ -36,6 +36,9 @@ const User = db.define('user', {
   },
   spotifyId: {
     type: Sequelize.STRING
+  },
+  imageUrl: {
+    type: Sequelize.STRING
   }
 })
 
